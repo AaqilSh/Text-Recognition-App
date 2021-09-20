@@ -12,7 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String? _label;
+  List<String>? _lables;
+  List<String>? _texts;
   File? _image;
   @override
   Widget build(BuildContext context) {
@@ -22,25 +23,50 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          const SizedBox(
+            height: 25.0,
+          ),
           Container(
-            alignment: Alignment.center,
+            // alignment: Alignment.center,
             child: const Text('Hello how are you?'),
           ),
           Container(
             alignment: Alignment.center,
-            child: _image == null
+            child: (_image == null)
                 ? Container()
                 : Image.file(
                     _image!,
-                    // width: 200,
-                    // height: 200,
                   ),
           ),
-          Container(
-            alignment: Alignment.center,
-            child: _label == null ? Container() : Text(_label!),
+          Expanded(
+            flex: 4,
+            child: Container(
+              alignment: Alignment.center,
+              child: _lables == null
+                  ? Container()
+                  : ListView.builder(
+                      itemCount: _lables!.length,
+                      itemBuilder: (context, index) {
+                        return Text('${_lables![index]}');
+                      },
+                    ),
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: Container(
+              alignment: Alignment.center,
+              child: _texts == null
+                  ? Container()
+                  : ListView.builder(
+                      itemCount: _texts!.length,
+                      itemBuilder: (context, index) {
+                        return Text('${_texts![index]}');
+                      },
+                    ),
+            ),
           ),
           Container(
             alignment: Alignment.center,
@@ -49,6 +75,8 @@ class _HomePageState extends State<HomePage> {
                 var image = await pickImageFromGallery();
                 setState(() {
                   _image = image;
+                  _texts = null;
+                  _lables = null;
                 });
               },
               child: const Text('Upload image'),
@@ -58,12 +86,24 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.center,
             child: TextButton(
               onPressed: () async {
-                var label = await getText(_image!);
+                var label = await Helper().getLabel(_image!);
                 setState(() {
-                  _label = label;
+                  _lables = label;
                 });
               },
               child: const Text('Get label'),
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () async {
+                var texts = await Helper().getText(_image!);
+                setState(() {
+                  _texts = texts;
+                });
+              },
+              child: const Text('Get texts'),
             ),
           ),
         ],
