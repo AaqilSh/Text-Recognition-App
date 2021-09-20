@@ -51,14 +51,14 @@ class _HomePageState extends State<HomePage> {
                   _image = image;
                 });
               },
-              child: const Text('Press here'),
+              child: const Text('Upload image'),
             ),
           ),
           Container(
             alignment: Alignment.center,
             child: TextButton(
               onPressed: () async {
-                var label = await getLabel(_image);
+                var label = await getText(_image!);
                 setState(() {
                   _label = label;
                 });

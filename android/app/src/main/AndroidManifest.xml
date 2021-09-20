@@ -29,8 +29,8 @@
               />
               <!-- <meta-data
                android:name="com.google.mlkit.vision.DEPENDENCIES"
-               android:value="ica" />
-        To use multiple models: android:value="ica,model2,model3" -->
+               android:value="ica","face","ocr" />
+       To use multiple models: android:value="ica,model2,model3" -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -41,5 +41,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ica,face,ocr" />
     </application>
 </manifest>
