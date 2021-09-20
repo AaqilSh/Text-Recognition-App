@@ -27,6 +27,10 @@
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
               />
+              <!-- <meta-data
+               android:name="com.google.mlkit.vision.DEPENDENCIES"
+               android:value="ica" />
+        To use multiple models: android:value="ica,model2,model3" -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

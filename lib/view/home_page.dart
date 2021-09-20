@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:text_recognition/services/image.dart';
+import 'package:text_recognition/services/image_labelling.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,6 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? _label;
+  File? _image;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,8 +21,52 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Image recongnition'),
         centerTitle: true,
       ),
-      body: Container(
-        child: const Text('Hello how are you?'),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            child: const Text('Hello how are you?'),
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: _image == null
+                ? Container()
+                : Image.file(
+                    _image!,
+                    // width: 200,
+                    // height: 200,
+                  ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: _label == null ? Container() : Text(_label!),
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () async {
+                var image = await pickImageFromGallery();
+                setState(() {
+                  _image = image;
+                });
+              },
+              child: const Text('Press here'),
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () async {
+                var label = await getLabel(_image);
+                setState(() {
+                  _label = label;
+                });
+              },
+              child: const Text('Get label'),
+            ),
+          ),
+        ],
       ),
     );
   }
