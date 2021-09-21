@@ -1,0 +1,15 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+// import 'package:text_recognition/model/data_layer.dart';
+import 'package:text_recognition/services/image.dart';
+
+class SelectImageProvider with ChangeNotifier {
+  File? _image;
+  get image => _image;
+  void getImage() async {
+    _image = await pickImageFromGallery();
+    print(_image!.path);
+    notifyListeners();
+  }
+}

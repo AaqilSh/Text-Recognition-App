@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:text_recognition/providers/image_provider.dart';
+import 'package:text_recognition/providers/text_provider.dart';
 import 'package:text_recognition/view/home_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -16,7 +20,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: MultiProvider(providers: [
+        ChangeNotifierProvider<SelectImageProvider>(
+          create: (context) => SelectImageProvider(),
+        ),
+        ChangeNotifierProvider<TextProvider>(
+          create: (context) => TextProvider(),
+        ),
+      ], child: const HomePage()),
     );
   }
 }

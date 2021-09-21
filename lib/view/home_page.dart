@@ -1,8 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:text_recognition/services/image.dart';
-import 'package:text_recognition/services/image_labelling.dart';
+import 'package:provider/provider.dart';
+import 'package:text_recognition/providers/image_provider.dart';
+import 'package:text_recognition/providers/text_provider.dart';
+import 'package:text_recognition/view/custom_widgets.dart/upload_image_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,11 +12,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String>? _lables;
-  List<String>? _texts;
-  File? _image;
+  // List<String>? _lables;
+  // List<String>? _texts;
+  // File? _image;
+  // String? _translated;
   @override
   Widget build(BuildContext context) {
+    final _provider = Provider.of<SelectImageProvider>(context, listen: false);
+    final _textProvider = Provider.of<TextProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Image recongnition'),
@@ -28,86 +31,94 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 25.0,
           ),
-          Container(
-            // alignment: Alignment.center,
-            child: const Text('Hello how are you?'),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: (_image == null)
-                ? Container()
-                : Image.file(
-                    _image!,
-                  ),
-          ),
+          // Container(
+          // alignment: Alignment.center,
+          Consumer<SelectImageProvider>(
+              builder: (_, myType, __) => (myType.image == null)
+                  ? const UploadImageButton()
+                  : _displayImage(_provider)),
+
+          // ),
+
           Expanded(
-            flex: 4,
-            child: Container(
-              alignment: Alignment.center,
-              child: _lables == null
-                  ? Container()
-                  : ListView.builder(
-                      itemCount: _lables!.length,
-                      itemBuilder: (context, index) {
-                        return Text('${_lables![index]}');
-                      },
-                    ),
+            child: Consumer<TextProvider>(
+              builder: (_, some, __) => Container(
+                alignment: Alignment.center,
+                child: some.processedTexts == null
+                    ? TextButton(
+                        onPressed: () {
+                          _textProvider.getText(_provider.image);
+                        },
+                        child: Text('Get text'),
+                      )
+                    : ListView.builder(
+                        itemCount: _textProvider.processedTexts.length,
+                        itemBuilder: (context, index) {
+                          return Text('${some.processedTexts[index]}');
+                        },
+                      ),
+              ),
             ),
           ),
-          Expanded(
-            flex: 4,
-            child: Container(
-              alignment: Alignment.center,
-              child: _texts == null
-                  ? Container()
-                  : ListView.builder(
-                      itemCount: _texts!.length,
-                      itemBuilder: (context, index) {
-                        return Text('${_texts![index]}');
-                      },
-                    ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: TextButton(
-              onPressed: () async {
-                var image = await pickImageFromGallery();
-                setState(() {
-                  _image = image;
-                  _texts = null;
-                  _lables = null;
-                });
-              },
-              child: const Text('Upload image'),
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: TextButton(
-              onPressed: () async {
-                var label = await Helper().getLabel(_image!);
-                setState(() {
-                  _lables = label;
-                });
-              },
-              child: const Text('Get label'),
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: TextButton(
-              onPressed: () async {
-                var texts = await Helper().getText(_image!);
-                setState(() {
-                  _texts = texts;
-                });
-              },
-              child: const Text('Get texts'),
-            ),
-          ),
+          // Expanded(
+          //   child: Container(
+          //     alignment: Alignment.center,
+          //     child: _texts == null
+          //         ? Container()
+          //         : ListView.builder(
+          //             itemCount: _texts!.length,
+          //             itemBuilder: (context, index) {
+          //               return Text('${_texts![index]}');
+          //             },
+          //           ),
+          //   ),
+          // ),
+          // Expanded(child: Text("${_translated}")),
+          // Container(
+          //   alignment: Alignment.center,
+          //   child: TextButton(
+          //     onPressed: () async {
+          //       var label = await Helper().getLabel(_image.image!);
+          //       setState(() {
+          //         _lables = label;
+          //       });
+          //     },
+          //     child: const Text('Get label'),
+          //   ),
+          // ),
+          // Container(
+          //   alignment: Alignment.center,
+          //   child: TextButton(
+          //     onPressed: () async {
+          //       var texts = await Helper().getText(_image.image!);
+          //       setState(() {
+          //         _texts = texts;
+          //       });
+          //     },
+          //     child: const Text('Get texts'),
+          //   ),
+          // ),
+          // Container(
+          //   alignment: Alignment.center,
+          //   child: TextButton(
+          //     onPressed: () async {
+          //       var texts = await Helper().translateText("${_texts![0]}");
+          //       setState(() {
+          //         _translated = texts;
+          //       });
+          //     },
+          //     child: const Text('Translate'),
+          //   ),
+          // ),
         ],
       ),
+    );
+  }
+
+  Image _displayImage(SelectImageProvider _provider) {
+    return Image.file(
+      _provider.image!,
+      height: 100,
     );
   }
 }
