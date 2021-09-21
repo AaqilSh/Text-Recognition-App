@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:text_recognition/repositories/image.dart';
 
 class SelectImageProvider with ChangeNotifier {
+  static final SelectImageProvider _singleton = SelectImageProvider();
+  static SelectImageProvider get instance => _singleton;
+
   File? _image;
   get image => _image;
   void getImage() async {

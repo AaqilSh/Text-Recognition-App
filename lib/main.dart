@@ -22,11 +22,16 @@ class MyApp extends StatelessWidget {
       ),
       home: MultiProvider(providers: [
         ChangeNotifierProvider<SelectImageProvider>(
-          create: (context) => SelectImageProvider(),
+          create: (context) => SelectImageProvider.instance,
         ),
         ChangeNotifierProvider<TextProvider>(
           create: (context) => TextProvider(),
         ),
+        // ChangeNotifierProxyProvider<SelectImageProvider, TextProvider>(
+        //     create: (_) => TextProvider(
+        //         Provider.of<SelectImageProvider>(context, listen: false)),
+        //     update: (_, imageProvider, textProvider) =>
+        //         TextProvider(imageProvider))
       ], child: const HomePage()),
     );
   }

@@ -16,8 +16,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final _provider = Provider.of<SelectImageProvider>(context, listen: false);
-    final _textProvider = Provider.of<TextProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Image recongnition'),
@@ -37,11 +35,11 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 15.0,
           ),
-          Consumer2<TextProvider, SelectImageProvider>(
-            builder: (_, text, image, __) => text.processedTexts == null
+          Consumer<TextProvider>(
+            builder: (_, text, __) => text.processedTexts == null
                 ? TextButton(
                     onPressed: text.getText,
-                    child: Text('Get text'),
+                    child: const Text('Get text'),
                   )
                 : Expanded(
                     child: ListView.separated(
