@@ -10,5 +10,10 @@ class SelectImageProvider with ChangeNotifier {
   void getImage() async {
     _image = await pickImageFromGallery();
     notifyListeners();
+    setImage(_image!);
+  }
+
+  void setImage(File image) {
+    _image = image;
   }
 }

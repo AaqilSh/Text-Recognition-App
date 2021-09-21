@@ -30,23 +30,17 @@ class _HomePageState extends State<HomePage> {
             height: 25.0,
           ),
           Consumer<SelectImageProvider>(
-            builder: (_, myType, __) => (myType.image == null)
+            builder: (_, imageProvider, __) => (imageProvider.image == null)
                 ? const UploadImageButton()
-                : Center(child: _displayImage(myType.image!)),
+                : Center(child: _displayImage(imageProvider.image!)),
           ),
           const SizedBox(
             height: 15.0,
           ),
-          Consumer<TextProvider>(
-            builder: (_, some, __) => some.processedTexts == null
+          Consumer2<TextProvider, SelectImageProvider>(
+            builder: (_, text, image, __) => text.processedTexts == null
                 ? TextButton(
-                    onPressed: () {
-                      try {
-                        _textProvider.getText(_provider.image!);
-                      } catch (e) {
-                        print(e);
-                      }
-                    },
+                    onPressed: text.getText,
                     child: Text('Get text'),
                   )
                 : Expanded(
@@ -54,11 +48,11 @@ class _HomePageState extends State<HomePage> {
                       separatorBuilder: (_, __) => const SizedBox(
                         height: 7.0,
                       ),
-                      itemCount: some.processedTexts.length,
+                      itemCount: text.processedTexts.length,
                       itemBuilder: (context, index) {
                         return Center(
                             child: Text(
-                                '${index + 1}: ${some.processedTexts[index].text}'));
+                                '${index + 1}: ${text.processedTexts[index].text}'));
                       },
                     ),
                   ),
