@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:text_recognition/model/data_layer.dart';
 
 // File? file;
 
@@ -23,20 +24,19 @@ class Helper {
     return _labelss;
   }
 
-  Future<List<String>> getText(File file) async {
+  Future<List<RecognizedText>> getText(File file) async {
     final inputImage = InputImage.fromFile(file);
     final textDetector = GoogleMlKit.vision.textDetector();
     final RecognisedText recognisedText =
         await textDetector.processImage(inputImage);
 
-//   print(recognisedText.blocks);
-    List<String> _texts = [];
+    List<RecognizedText> recognized = [];
 
     for (TextBlock block in recognisedText.blocks) {
-      _texts.add(block.text);
+      recognized.add(RecognizedText(text: block.text, block: block.text));
     }
 
-    return _texts;
+    return recognized;
 //   for (TextBlock block in recognisedText.blocks) {
 //     // final Rect rect = block.rect;
 //     // final List<Offset> cornerPoints = block.cornerPoints;

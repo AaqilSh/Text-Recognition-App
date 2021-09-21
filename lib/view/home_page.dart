@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_recognition/providers/image_provider.dart';
@@ -12,10 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // List<String>? _lables;
-  // List<String>? _texts;
-  // File? _image;
-  // String? _translated;
   @override
   Widget build(BuildContext context) {
     final _provider = Provider.of<SelectImageProvider>(context, listen: false);
@@ -31,93 +29,48 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 25.0,
           ),
-          // Container(
-          // alignment: Alignment.center,
           Consumer<SelectImageProvider>(
-              builder: (_, myType, __) => (myType.image == null)
-                  ? const UploadImageButton()
-                  : _displayImage(_provider)),
-
-          // ),
-
-          Expanded(
-            child: Consumer<TextProvider>(
-              builder: (_, some, __) => Container(
-                alignment: Alignment.center,
-                child: some.processedTexts == null
-                    ? TextButton(
-                        onPressed: () {
-                          _textProvider.getText(_provider.image);
-                        },
-                        child: Text('Get text'),
-                      )
-                    : ListView.builder(
-                        itemCount: _textProvider.processedTexts.length,
-                        itemBuilder: (context, index) {
-                          return Text('${some.processedTexts[index]}');
-                        },
-                      ),
-              ),
-            ),
+            builder: (_, myType, __) => (myType.image == null)
+                ? const UploadImageButton()
+                : Center(child: _displayImage(myType.image!)),
           ),
-          // Expanded(
-          //   child: Container(
-          //     alignment: Alignment.center,
-          //     child: _texts == null
-          //         ? Container()
-          //         : ListView.builder(
-          //             itemCount: _texts!.length,
-          //             itemBuilder: (context, index) {
-          //               return Text('${_texts![index]}');
-          //             },
-          //           ),
-          //   ),
-          // ),
-          // Expanded(child: Text("${_translated}")),
-          // Container(
-          //   alignment: Alignment.center,
-          //   child: TextButton(
-          //     onPressed: () async {
-          //       var label = await Helper().getLabel(_image.image!);
-          //       setState(() {
-          //         _lables = label;
-          //       });
-          //     },
-          //     child: const Text('Get label'),
-          //   ),
-          // ),
-          // Container(
-          //   alignment: Alignment.center,
-          //   child: TextButton(
-          //     onPressed: () async {
-          //       var texts = await Helper().getText(_image.image!);
-          //       setState(() {
-          //         _texts = texts;
-          //       });
-          //     },
-          //     child: const Text('Get texts'),
-          //   ),
-          // ),
-          // Container(
-          //   alignment: Alignment.center,
-          //   child: TextButton(
-          //     onPressed: () async {
-          //       var texts = await Helper().translateText("${_texts![0]}");
-          //       setState(() {
-          //         _translated = texts;
-          //       });
-          //     },
-          //     child: const Text('Translate'),
-          //   ),
-          // ),
+          const SizedBox(
+            height: 15.0,
+          ),
+          Consumer<TextProvider>(
+            builder: (_, some, __) => some.processedTexts == null
+                ? TextButton(
+                    onPressed: () {
+                      try {
+                        _textProvider.getText(_provider.image!);
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
+                    child: Text('Get text'),
+                  )
+                : Expanded(
+                    child: ListView.separated(
+                      separatorBuilder: (_, __) => const SizedBox(
+                        height: 7.0,
+                      ),
+                      itemCount: some.processedTexts.length,
+                      itemBuilder: (context, index) {
+                        return Center(
+                            child: Text(
+                                '${index + 1}: ${some.processedTexts[index].text}'));
+                      },
+                    ),
+                  ),
+          ),
         ],
       ),
     );
   }
 
-  Image _displayImage(SelectImageProvider _provider) {
+  Image _displayImage(File? image) {
     return Image.file(
-      _provider.image!,
+      image!,
       height: 100,
     );
   }
