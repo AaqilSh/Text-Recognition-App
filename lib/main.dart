@@ -21,17 +21,24 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MultiProvider(providers: [
-        ChangeNotifierProvider<SelectImageProvider>(
-          create: (context) => SelectImageProvider.instance,
+        ChangeNotifierProvider<TextViewModel>(
+          create: (context) => TextViewModel(),
         ),
-        ChangeNotifierProvider<TextProvider>(
-          create: (context) => TextProvider(),
+        // ChangeNotifierProvider<SelectImageProvider>(
+        //   create: (context) => SelectImageProvider(),
+        // ),
+        ChangeNotifierProxyProvider<TextViewModel, SelectImageProvider>(
+          create: (_) => SelectImageProvider(),
+          update: (BuildContext context, TextViewModel textProvider,
+                  SelectImageProvider? imageProvider) =>
+              SelectImageProvider(textProvider: textProvider),
         ),
-        // ChangeNotifierProxyProvider<SelectImageProvider, TextProvider>(
-        //     create: (_) => TextProvider(
-        //         Provider.of<SelectImageProvider>(context, listen: false)),
-        //     update: (_, imageProvider, textProvider) =>
-        //         TextProvider(imageProvider))
+        ChangeNotifierProxyProvider<SelectImageProvider, TextViewModel>(
+          create: (_) => TextViewModel(),
+          update: (BuildContext context, SelectImageProvider imageProvider,
+                  TextViewModel? textprovider) =>
+              TextViewModel(imageprovider: imageProvider),
+        ),
       ], child: const HomePage()),
     );
   }

@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    print('build called');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Image recongnition'),
@@ -30,28 +31,49 @@ class _HomePageState extends State<HomePage> {
           Consumer<SelectImageProvider>(
             builder: (_, imageProvider, __) => (imageProvider.image == null)
                 ? const UploadImageButton()
-                : Center(child: _displayImage(imageProvider.image!)),
+                : Center(
+                    child: Column(
+                      children: [
+                        _displayImage(imageProvider.image!),
+                        TextButton(
+                            onPressed: imageProvider.getImage,
+                            child: const Text('Select another image'))
+                      ],
+                    ),
+                  ),
           ),
           const SizedBox(
             height: 15.0,
           ),
-          Consumer<TextProvider>(
-            builder: (_, text, __) => text.processedTexts == null
+          Consumer<TextViewModel>(
+            builder: (_, text, __) => (text.processedTexts == null)
                 ? TextButton(
                     onPressed: text.getText,
                     child: const Text('Get text'),
                   )
-                : Expanded(
-                    child: ListView.separated(
-                      separatorBuilder: (_, __) => const SizedBox(
-                        height: 7.0,
-                      ),
-                      itemCount: text.processedTexts.length,
-                      itemBuilder: (context, index) {
-                        return Center(
-                            child: Text(
-                                '${index + 1}: ${text.processedTexts[index].text}'));
-                      },
+                : Flexible(
+                    child: Column(
+                      children: [
+                        Flexible(
+                          child: ListView.separated(
+                            separatorBuilder: (_, __) => const SizedBox(
+                              height: 7.0,
+                            ),
+                            itemCount: text.processedTexts.length,
+                            itemBuilder: (context, index) {
+                              return Center(
+                                  child: Text(
+                                      '${index + 1}: ${text.processedTexts[index].text}'));
+                            },
+                          ),
+                        ),
+                        Flexible(
+                          child: TextButton(
+                            onPressed: text.getText,
+                            child: const Text('Get text'),
+                          ),
+                        )
+                      ],
                     ),
                   ),
           ),

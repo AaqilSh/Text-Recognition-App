@@ -5,17 +5,24 @@ import 'package:text_recognition/model/data_layer.dart';
 import 'package:text_recognition/providers/image_provider.dart';
 import 'package:text_recognition/repositories/image_labelling.dart';
 
-class TextProvider with ChangeNotifier {
-  // SelectImageProvider? imageProvder;
-  // File? image;
+class TextViewModel with ChangeNotifier {
+  TextViewModel({this.imageprovider});
+
+  SelectImageProvider? imageprovider;
+
+  // SelectImageProvider imageProvider = SelectImageProvider.instance;
+
   List<RecognizedText>? _processedTexts;
   get processedTexts => _processedTexts;
-  // TextProvider(this.imageProvder);
-  SelectImageProvider imageProvider = SelectImageProvider.instance;
+
+  void setText() {
+    _processedTexts = [];
+    notifyListeners();
+  }
 
   void getText() async {
-    final _image = imageProvider.image;
     try {
+      File _image = imageprovider!.image;
       _processedTexts = await Helper().getText(_image);
       notifyListeners();
     } catch (e) {
