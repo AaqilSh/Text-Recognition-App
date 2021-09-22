@@ -2,9 +2,7 @@ import 'dart:io';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:text_recognition/model/data_layer.dart';
 
-// File? file;
-
-class Helper {
+class MlService {
   final _languageModelManager = GoogleMlKit.nlp.translateLanguageModelManager();
   final _onDeviceTranslator = GoogleMlKit.nlp.onDeviceTranslator(
       sourceLanguage: TranslateLanguage.ENGLISH,
@@ -24,19 +22,19 @@ class Helper {
     return _labelss;
   }
 
-  Future<List<RecognizedText>> getText(File file) async {
-    final inputImage = InputImage.fromFile(file);
+  Future<List<RecognizedText>> getText(String path) async {
+    final inputImage = InputImage.fromFilePath(path);
     final textDetector = GoogleMlKit.vision.textDetector();
     final RecognisedText recognisedText =
         await textDetector.processImage(inputImage);
 
-    List<RecognizedText> recognized = [];
+    List<RecognizedText> recognizedList = [];
 
     for (TextBlock block in recognisedText.blocks) {
-      recognized.add(RecognizedText(text: block.text, block: block.text));
+      recognizedList.add(RecognizedText(lines: block.lines, block: block.text));
     }
 
-    return recognized;
+    return recognizedList;
 //   for (TextBlock block in recognisedText.blocks) {
 //     // final Rect rect = block.rect;
 //     // final List<Offset> cornerPoints = block.cornerPoints;
@@ -56,15 +54,13 @@ class Helper {
   //   final _onDeviceTranslator = GoogleMlKit.nlp.onDeviceTranslator(
   //       sourceLanguage: TranslateLanguage.ENGLISH,
   //       targetLanguage: TranslateLanguage.TAMIL);
-  //   final String response = await onDeviceTranslator.translateText(text);
+  //   final String response = await _onDeviceTranslator.translateText(text);
   //   return response;
   // }
 
   Future<void> downloadModel() async {
     var result = await _languageModelManager.downloadModel('en');
-    print('Model downloaded: $result');
     result = await _languageModelManager.downloadModel('ta');
-    print('Model downloaded: $result');
   }
 
   Future<void> getAvailableModels() async {

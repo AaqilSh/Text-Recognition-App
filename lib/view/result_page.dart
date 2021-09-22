@@ -6,11 +6,6 @@ import 'package:text_recognition/providers/text_provider.dart';
 class ResultPage extends StatelessWidget {
   const ResultPage({Key? key}) : super(key: key);
 
-//   @override
-//   _ResultPageState createState() => _ResultPageState();
-// }
-
-// class _ResultPageState extends State<ResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +17,7 @@ class ResultPage extends StatelessWidget {
         builder: (_, textProvider, __) =>
             (textProvider.state == CurrentState.idle)
                 ? const Center(
-                    child: Text('Nothing here'),
+                    child: Text('Nothing here 😴'),
                   )
                 : (textProvider.state == CurrentState.loading)
                     ? const Center(child: CircularProgressIndicator())
@@ -42,7 +37,7 @@ ListView _displayText(TextViewModel text) {
     itemCount: text.processedTexts!.length,
     itemBuilder: (context, index) {
       return Center(
-          child: Text('${index + 1}: ${text.processedTexts![index].text}'));
+          child: Text('${index + 1}: ${text.processedTexts![index].block}'));
     },
   );
 }

@@ -1,9 +1,9 @@
-import 'dart:io';
+import 'package:text_recognition/model/data_layer.dart';
 import 'package:text_recognition/providers/base_model.dart';
 import 'package:text_recognition/repositories/upload_image.dart';
 
-class SelectImageProvider extends BaseModel {
-  File? _image;
+class ImageViewModel extends BaseModel {
+  ImageModel? _image;
   get image => _image;
 
   void getImage() async {
@@ -13,7 +13,8 @@ class SelectImageProvider extends BaseModel {
     }
     setState(CurrentState.loading);
     try {
-      _image = await pickImageFromGallery();
+      final _mediaService = MediaService();
+      _image = await _mediaService.pickImageFromGallery();
       setState(CurrentState.loaded);
     } catch (e) {
       setState(CurrentState.idle);

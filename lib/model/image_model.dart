@@ -1,6 +1,4 @@
-import 'dart:io';
-
-class UploadedImage {
-  File? image;
-  UploadedImage({required this.image});
+class ImageModel {
+  String? imagePath;
+  ImageModel({required this.imagePath});
 }

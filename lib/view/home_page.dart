@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:text_recognition/model/data_layer.dart';
 import 'package:text_recognition/providers/base_model.dart';
 import 'package:text_recognition/providers/image_provider.dart';
 import 'package:text_recognition/providers/text_provider.dart';
@@ -11,11 +12,6 @@ import 'package:text_recognition/view/result_page.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-//   @override
-//   _HomePageState createState() => _HomePageState();
-// }
-
-// class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +25,7 @@ class HomePage extends StatelessWidget {
           const SizedBox(
             height: 25.0,
           ),
-          Consumer<SelectImageProvider>(
+          Consumer<ImageViewModel>(
               builder: (_, imageProvider, __) =>
                   (imageProvider.state == CurrentState.loading)
                       ? const CircularProgressIndicator()
@@ -37,7 +33,7 @@ class HomePage extends StatelessWidget {
                           ? Center(
                               child: Column(
                                 children: [
-                                  _displayImage(imageProvider.image!),
+                                  _displayImage(imageProvider.image.imagePath),
                                   CustomButton(
                                       text: 'Get another image',
                                       onTap: imageProvider.getImage)
@@ -56,15 +52,6 @@ class HomePage extends StatelessWidget {
                   textProvider.getText();
                   Navigator.push(context,
                       MaterialPageRoute(builder: (_) => const ResultPage()));
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (_) => ListenableProvider<TextViewModel>.value(
-                  //       value: textProvider,
-                  //       child: const ResultPage(),
-                  //     ),
-                  //   ),
-                  // );
                 },
                 child: const Text('Do something')),
           ),
@@ -73,22 +60,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  ListView _displayText(TextViewModel text) {
-    return ListView.separated(
-      separatorBuilder: (_, __) => const SizedBox(
-        height: 7.0,
-      ),
-      itemCount: text.processedTexts!.length,
-      itemBuilder: (context, index) {
-        return Center(
-            child: Text('${index + 1}: ${text.processedTexts![index].text}'));
-      },
-    );
-  }
-
-  Image _displayImage(File? image) {
+  Image _displayImage(String path) {
     return Image.file(
-      image!,
+      File(path),
       height: 100,
     );
   }

@@ -1,19 +1,17 @@
-import 'dart:io';
-
 import 'package:text_recognition/model/data_layer.dart';
 import 'package:text_recognition/providers/base_model.dart';
 import 'package:text_recognition/providers/image_provider.dart';
 import 'package:text_recognition/repositories/image_labelling.dart';
 
 class TextViewModel extends BaseModel {
-  late SelectImageProvider _imageProvider;
+  late ImageViewModel _imageProvider;
 
   List<RecognizedText>? _processedTexts;
 
   List<RecognizedText>? get processedTexts => _processedTexts;
-  SelectImageProvider get imageProvider => _imageProvider;
+  ImageViewModel get imageProvider => _imageProvider;
 
-  set imageProvider(SelectImageProvider imageProvider) {
+  set imageProvider(ImageViewModel imageProvider) {
     _imageProvider = imageProvider;
     emptyList();
   }
@@ -21,8 +19,9 @@ class TextViewModel extends BaseModel {
   void getText() async {
     setState(CurrentState.loading);
     try {
-      File _image = _imageProvider.image;
-      _processedTexts = await Helper().getText(_image);
+      final _mlSerive = MlService();
+      String _imagePath = _imageProvider.image;
+      _processedTexts = await _mlSerive.getText(_imagePath);
       setState(CurrentState.loaded);
     } catch (e) {
       setState(CurrentState.idle);

@@ -6,13 +6,13 @@ import 'package:text_recognition/providers/text_provider.dart';
 import 'image_provider.dart';
 
 List<SingleChildWidget> providers = [
-  ChangeNotifierProvider<SelectImageProvider>(
-    create: (context) => SelectImageProvider(),
+  ChangeNotifierProvider<ImageViewModel>(
+    create: (context) => ImageViewModel(),
   ),
   // ),
-  ChangeNotifierProxyProvider<SelectImageProvider, TextViewModel>(
+  ChangeNotifierProxyProvider<ImageViewModel, TextViewModel>(
     create: (_) => TextViewModel(),
-    update: (BuildContext context, SelectImageProvider? imageProvider,
+    update: (BuildContext context, ImageViewModel? imageProvider,
         TextViewModel? textprovider) {
       textprovider!.imageProvider = imageProvider!;
       return textprovider;

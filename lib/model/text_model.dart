@@ -1,6 +1,8 @@
-class RecognizedText {
-  String? text;
-  String? block;
+import 'package:google_ml_kit/google_ml_kit.dart';
 
-  RecognizedText({required this.text, this.block});
+class RecognizedText {
+  String? block;
+  List<TextLine>? lines;
+
+  RecognizedText({required this.lines, this.block});
 }
