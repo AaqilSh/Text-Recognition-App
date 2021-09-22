@@ -75,10 +75,10 @@ class _HomePageState extends State<HomePage> {
       separatorBuilder: (_, __) => const SizedBox(
         height: 7.0,
       ),
-      itemCount: text.processedTexts.length,
+      itemCount: text.processedTexts!.length,
       itemBuilder: (context, index) {
         return Center(
-            child: Text('${index + 1}: ${text.processedTexts[index].text}'));
+            child: Text('${index + 1}: ${text.processedTexts![index].text}'));
       },
     );
   }

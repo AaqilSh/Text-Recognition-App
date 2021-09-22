@@ -6,17 +6,21 @@ import 'package:text_recognition/providers/image_provider.dart';
 import 'package:text_recognition/repositories/image_labelling.dart';
 
 class TextViewModel extends BaseModel {
-  SelectImageProvider? imageprovider;
-
-  TextViewModel({this.imageprovider});
-
+  late SelectImageProvider _imageprovider;
   List<RecognizedText>? _processedTexts;
-  get processedTexts => _processedTexts;
+
+  SelectImageProvider get imageProvider => _imageprovider;
+  List<RecognizedText>? get processedTexts => _processedTexts;
+
+  set imageProvider(SelectImageProvider imagePrivder) {
+    _imageprovider = imagePrivder;
+    notifyListeners();
+  }
 
   void getText() async {
     setLoading(true);
     try {
-      File _image = imageprovider!.image;
+      File _image = _imageprovider.image;
       _processedTexts = await Helper().getText(_image);
       setEmpty(false);
     } catch (e) {

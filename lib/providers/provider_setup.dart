@@ -12,9 +12,11 @@ List<SingleChildWidget> providers = [
   // ),
   ChangeNotifierProxyProvider<SelectImageProvider, TextViewModel>(
     create: (_) => TextViewModel(),
-    update: (BuildContext context, SelectImageProvider imageProvider,
-            TextViewModel? textprovider) =>
-        TextViewModel(imageprovider: imageProvider),
-    lazy: true,
+    update: (BuildContext context, SelectImageProvider? imageProvider,
+        TextViewModel? textprovider) {
+      textprovider!.imageProvider = imageProvider!;
+      return textprovider;
+    },
+    lazy: false,
   ),
 ];
