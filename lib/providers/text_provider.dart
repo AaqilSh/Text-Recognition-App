@@ -14,8 +14,8 @@ class TextViewModel extends BaseModel {
   SelectImageProvider get imageProvider => _imageProvider;
 
   set imageProvider(SelectImageProvider imageProvider) {
-    emptyList();
     _imageProvider = imageProvider;
+    emptyList();
   }
 
   void getText() async {
@@ -31,6 +31,5 @@ class TextViewModel extends BaseModel {
 
   void emptyList() {
     _processedTexts = [];
-    notifyListeners();
   }
 }

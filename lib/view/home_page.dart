@@ -6,15 +6,16 @@ import 'package:text_recognition/providers/base_model.dart';
 import 'package:text_recognition/providers/image_provider.dart';
 import 'package:text_recognition/providers/text_provider.dart';
 import 'package:text_recognition/view/custom_widgets.dart/upload_image_button.dart';
+import 'package:text_recognition/view/result_page.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+//   @override
+//   _HomePageState createState() => _HomePageState();
+// }
 
-class _HomePageState extends State<HomePage> {
+// class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,22 +51,23 @@ class _HomePageState extends State<HomePage> {
             height: 15.0,
           ),
           Consumer<TextViewModel>(
-              builder: (_, text, __) => (text.state == CurrentState.loading)
-                  ? const CircularProgressIndicator()
-                  : (text.state == CurrentState.loaded)
-                      ? Flexible(
-                          child: Column(
-                            children: [
-                              Flexible(
-                                child: _displayText(text),
-                              ),
-                              Flexible(
-                                  child: CustomButton(
-                                      text: 'Get text', onTap: text.getText))
-                            ],
-                          ),
-                        )
-                      : CustomButton(text: 'Get text', onTap: text.getText)),
+            builder: (_, textProvider, __) => TextButton(
+                onPressed: () {
+                  textProvider.getText();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const ResultPage()));
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (_) => ListenableProvider<TextViewModel>.value(
+                  //       value: textProvider,
+                  //       child: const ResultPage(),
+                  //     ),
+                  //   ),
+                  // );
+                },
+                child: const Text('Do something')),
+          ),
         ],
       ),
     );
