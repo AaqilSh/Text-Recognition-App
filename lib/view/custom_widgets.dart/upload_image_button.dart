@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:text_recognition/providers/image_provider.dart';
 
-class UploadImageButton extends StatelessWidget {
-  const UploadImageButton({
+class CustomButton extends StatelessWidget {
+  final String? text;
+  final Function()? onTap;
+  const CustomButton({
+    this.onTap,
+    this.text,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<SelectImageProvider>(context);
     return Container(
       alignment: Alignment.center,
       child: TextButton(
-        onPressed: provider.getImage,
-        child: const Text('Upload image'),
+        onPressed: onTap,
+        child: Text(text!),
       ),
     );
   }

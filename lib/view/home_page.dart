@@ -16,7 +16,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    print('build called');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Image recongnition'),
@@ -29,56 +28,58 @@ class _HomePageState extends State<HomePage> {
             height: 25.0,
           ),
           Consumer<SelectImageProvider>(
-            builder: (_, imageProvider, __) => (imageProvider.image == null)
-                ? const UploadImageButton()
-                : Center(
-                    child: Column(
-                      children: [
-                        _displayImage(imageProvider.image!),
-                        TextButton(
-                            onPressed: imageProvider.getImage,
-                            child: const Text('Select another image'))
-                      ],
-                    ),
-                  ),
+            builder: (_, imageProvider, __) => imageProvider.isLoading
+                ? const CircularProgressIndicator()
+                : (imageProvider.isEmpty)
+                    ? CustomButton(
+                        text: 'Upload image', onTap: imageProvider.getImage)
+                    : Center(
+                        child: Column(
+                          children: [
+                            _displayImage(imageProvider.image!),
+                            CustomButton(
+                                text: 'Get another image',
+                                onTap: imageProvider.getImage)
+                          ],
+                        ),
+                      ),
           ),
           const SizedBox(
             height: 15.0,
           ),
           Consumer<TextViewModel>(
-            builder: (_, text, __) => (text.processedTexts == null)
-                ? TextButton(
-                    onPressed: text.getText,
-                    child: const Text('Get text'),
-                  )
-                : Flexible(
-                    child: Column(
-                      children: [
-                        Flexible(
-                          child: ListView.separated(
-                            separatorBuilder: (_, __) => const SizedBox(
-                              height: 7.0,
+            builder: (_, text, __) => text.isLoading
+                ? const CircularProgressIndicator()
+                : (text.isEmpty)
+                    ? CustomButton(text: 'Get text', onTap: text.getText)
+                    : Flexible(
+                        child: Column(
+                          children: [
+                            Flexible(
+                              child: _displayText(text),
                             ),
-                            itemCount: text.processedTexts.length,
-                            itemBuilder: (context, index) {
-                              return Center(
-                                  child: Text(
-                                      '${index + 1}: ${text.processedTexts[index].text}'));
-                            },
-                          ),
+                            Flexible(
+                                child: CustomButton(
+                                    text: 'Get text', onTap: text.getText))
+                          ],
                         ),
-                        Flexible(
-                          child: TextButton(
-                            onPressed: text.getText,
-                            child: const Text('Get text'),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                      ),
           ),
         ],
       ),
+    );
+  }
+
+  ListView _displayText(TextViewModel text) {
+    return ListView.separated(
+      separatorBuilder: (_, __) => const SizedBox(
+        height: 7.0,
+      ),
+      itemCount: text.processedTexts.length,
+      itemBuilder: (context, index) {
+        return Center(
+            child: Text('${index + 1}: ${text.processedTexts[index].text}'));
+      },
     );
   }
 
