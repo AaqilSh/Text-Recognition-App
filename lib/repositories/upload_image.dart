@@ -11,7 +11,7 @@ Future<File?> pickImageFromGallery() async {
     image = File(_image!.path);
     return image!;
   } catch (e) {
-    print(e);
+    throw Exception('No image');
   }
   // }
 }

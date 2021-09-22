@@ -17,6 +17,6 @@ List<SingleChildWidget> providers = [
       textprovider!.imageProvider = imageProvider!;
       return textprovider;
     },
-    lazy: false,
+    lazy: true,
   ),
 ];

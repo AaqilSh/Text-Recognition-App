@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:text_recognition/providers/base_model.dart';
 import 'package:text_recognition/providers/image_provider.dart';
 import 'package:text_recognition/providers/text_provider.dart';
 import 'package:text_recognition/view/custom_widgets.dart/upload_image_button.dart';
@@ -28,43 +29,43 @@ class _HomePageState extends State<HomePage> {
             height: 25.0,
           ),
           Consumer<SelectImageProvider>(
-            builder: (_, imageProvider, __) => imageProvider.isLoading
-                ? const CircularProgressIndicator()
-                : (imageProvider.isEmpty)
-                    ? CustomButton(
-                        text: 'Upload image', onTap: imageProvider.getImage)
-                    : Center(
-                        child: Column(
-                          children: [
-                            _displayImage(imageProvider.image!),
-                            CustomButton(
-                                text: 'Get another image',
-                                onTap: imageProvider.getImage)
-                          ],
-                        ),
-                      ),
-          ),
+              builder: (_, imageProvider, __) =>
+                  (imageProvider.state == CurrentState.loading)
+                      ? const CircularProgressIndicator()
+                      : (imageProvider.state == CurrentState.loaded)
+                          ? Center(
+                              child: Column(
+                                children: [
+                                  _displayImage(imageProvider.image!),
+                                  CustomButton(
+                                      text: 'Get another image',
+                                      onTap: imageProvider.getImage)
+                                ],
+                              ),
+                            )
+                          : CustomButton(
+                              text: 'Upload image',
+                              onTap: imageProvider.getImage)),
           const SizedBox(
             height: 15.0,
           ),
           Consumer<TextViewModel>(
-            builder: (_, text, __) => text.isLoading
-                ? const CircularProgressIndicator()
-                : (text.isEmpty)
-                    ? CustomButton(text: 'Get text', onTap: text.getText)
-                    : Flexible(
-                        child: Column(
-                          children: [
-                            Flexible(
-                              child: _displayText(text),
-                            ),
-                            Flexible(
-                                child: CustomButton(
-                                    text: 'Get text', onTap: text.getText))
-                          ],
-                        ),
-                      ),
-          ),
+              builder: (_, text, __) => (text.state == CurrentState.loading)
+                  ? const CircularProgressIndicator()
+                  : (text.state == CurrentState.loaded)
+                      ? Flexible(
+                          child: Column(
+                            children: [
+                              Flexible(
+                                child: _displayText(text),
+                              ),
+                              Flexible(
+                                  child: CustomButton(
+                                      text: 'Get text', onTap: text.getText))
+                            ],
+                          ),
+                        )
+                      : CustomButton(text: 'Get text', onTap: text.getText)),
         ],
       ),
     );

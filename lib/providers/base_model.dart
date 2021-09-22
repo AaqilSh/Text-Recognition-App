@@ -1,21 +1,15 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+
+// import 'package:flutter/cupertino.dart';
+
+enum CurrentState { idle, loading, loaded, error }
 
 class BaseModel extends ChangeNotifier {
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  CurrentState _state = CurrentState.idle;
+  CurrentState get state => _state;
 
-  bool _isEmpty = true;
-  bool get isEmpty => _isEmpty;
-
-  void setLoading(bool value) {
-    _isLoading = value;
+  void setState(CurrentState state) {
+    _state = state;
     notifyListeners();
   }
-
-  void setEmpty(bool value) {
-    _isEmpty = value;
-    notifyListeners();
-  }
-
-  void get() {}
 }
