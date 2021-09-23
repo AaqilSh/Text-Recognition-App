@@ -13,7 +13,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: TextButton(
+      child: ElevatedButton(
         onPressed: onTap,
         child: Text(text!),
       ),

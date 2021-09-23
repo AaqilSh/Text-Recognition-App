@@ -46,13 +46,17 @@ class HomePage extends StatelessWidget {
           const SizedBox(
             height: 15.0,
           ),
-          Consumer<TextViewModel>(
-            builder: (_, textProvider, __) => TextButton(
-                onPressed: () {
-                  textProvider.getText();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const ResultPage()));
-                },
+          Consumer2<TextViewModel, ImageViewModel>(
+            builder: (_, textProvider, imageProvider, __) => ElevatedButton(
+                onPressed: (imageProvider.image == null)
+                    ? null
+                    : () {
+                        textProvider.getText();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const ResultPage()));
+                      },
                 child: const Text('Do something')),
           ),
         ],
