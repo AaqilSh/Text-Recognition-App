@@ -12,6 +12,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
       alignment: Alignment.center,
       child: ElevatedButton(
         onPressed: onTap,

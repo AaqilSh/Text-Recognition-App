@@ -27,17 +27,18 @@ class HomePage extends StatelessWidget {
           Consumer<ImageViewModel>(
             builder: (_, imageProvider, __) =>
                 (imageProvider.state == CurrentState.loading)
-                    ? const CircularProgressIndicator()
+                    ? const Center(child: CircularProgressIndicator())
                     : (imageProvider.state == CurrentState.loaded)
-                        ? Center(
-                            child: Column(
-                              children: [
-                                DisplayImage(imageProvider.image.imagePath),
-                                CustomButton(
-                                    text: 'Get another image',
-                                    onTap: imageProvider.getImage)
-                              ],
-                            ),
+                        ? Column(
+                            children: [
+                              DisplayImage(imageProvider.image.imagePath),
+                              const SizedBox(
+                                height: 15.0,
+                              ),
+                              CustomButton(
+                                  text: 'Get another image',
+                                  onTap: imageProvider.getImage)
+                            ],
                           )
                         : CustomButton(
                             text: 'Upload image',
@@ -57,7 +58,7 @@ class HomePage extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (_) => const ResultPage()));
                       },
-                child: const Text('Do something')),
+                child: const Text('Get text')),
           ),
         ],
       ),

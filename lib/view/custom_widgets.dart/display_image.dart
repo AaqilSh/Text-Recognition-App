@@ -8,9 +8,14 @@ class DisplayImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.file(
-      File(path!),
-      height: 100,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      child: Image.file(
+        File(path!),
+        width: 350,
+        height: 400,
+        fit: BoxFit.scaleDown,
+      ),
     );
   }
 }
