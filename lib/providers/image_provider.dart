@@ -1,5 +1,6 @@
 import 'package:text_recognition/model/data_layer.dart';
 import 'package:text_recognition/providers/base_model.dart';
+import 'package:text_recognition/repositories/image_exceptions.dart';
 import 'package:text_recognition/repositories/upload_image.dart';
 
 class ImageViewModel extends BaseModel {
@@ -16,8 +17,10 @@ class ImageViewModel extends BaseModel {
       final _mediaService = MediaService();
       _image = await _mediaService.pickImageFromGallery();
       setState(CurrentState.loaded);
+    } on ImageNotSelectedException {
+      setState(CurrentState.error);
     } catch (e) {
-      setState(CurrentState.idle);
+      setState(CurrentState.error);
     }
   }
 }

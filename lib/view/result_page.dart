@@ -19,11 +19,15 @@ class ResultPage extends StatelessWidget {
                 ? const Center(
                     child: Text('Nothing here 😴'),
                   )
-                : (textProvider.state == CurrentState.loading)
-                    ? const Center(child: CircularProgressIndicator())
-                    : Center(
-                        child: _displayText(textProvider),
-                      ),
+                : (textProvider.state == CurrentState.error)
+                    ? const Center(
+                        child: Text('NO IMAGE TO ANALYZE 😴'),
+                      )
+                    : (textProvider.state == CurrentState.loading)
+                        ? const Center(child: CircularProgressIndicator())
+                        : Center(
+                            child: _displayText(textProvider),
+                          ),
       ),
     );
   }

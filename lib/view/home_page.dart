@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:text_recognition/model/data_layer.dart';
 import 'package:text_recognition/providers/base_model.dart';
 import 'package:text_recognition/providers/image_provider.dart';
 import 'package:text_recognition/providers/text_provider.dart';
@@ -26,23 +25,24 @@ class HomePage extends StatelessWidget {
             height: 25.0,
           ),
           Consumer<ImageViewModel>(
-              builder: (_, imageProvider, __) =>
-                  (imageProvider.state == CurrentState.loading)
-                      ? const CircularProgressIndicator()
-                      : (imageProvider.state == CurrentState.loaded)
-                          ? Center(
-                              child: Column(
-                                children: [
-                                  _displayImage(imageProvider.image.imagePath),
-                                  CustomButton(
-                                      text: 'Get another image',
-                                      onTap: imageProvider.getImage)
-                                ],
-                              ),
-                            )
-                          : CustomButton(
-                              text: 'Upload image',
-                              onTap: imageProvider.getImage)),
+            builder: (_, imageProvider, __) =>
+                (imageProvider.state == CurrentState.loading)
+                    ? const CircularProgressIndicator()
+                    : (imageProvider.state == CurrentState.loaded)
+                        ? Center(
+                            child: Column(
+                              children: [
+                                _displayImage(imageProvider.image.imagePath),
+                                CustomButton(
+                                    text: 'Get another image',
+                                    onTap: imageProvider.getImage)
+                              ],
+                            ),
+                          )
+                        : CustomButton(
+                            text: 'Upload image',
+                            onTap: imageProvider.getImage),
+          ),
           const SizedBox(
             height: 15.0,
           ),
