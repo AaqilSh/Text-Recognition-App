@@ -13,7 +13,7 @@ class TextViewModel extends BaseModel {
 
   set imageProvider(ImageViewModel imageProvider) {
     _imageProvider = imageProvider;
-    emptyList();
+    // emptyList();
   }
 
   void getText() async {

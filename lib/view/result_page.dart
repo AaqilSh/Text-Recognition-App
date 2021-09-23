@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:text_recognition/providers/base_model.dart';
 import 'package:text_recognition/providers/text_provider.dart';
 
-import 'custom_widgets.dart/diplay_text.dart';
+import 'custom_widgets.dart/display_text.dart';
 
 class ResultPage extends StatelessWidget {
   const ResultPage({Key? key}) : super(key: key);
@@ -27,9 +27,7 @@ class ResultPage extends StatelessWidget {
                       )
                     : (textProvider.state == CurrentState.loading)
                         ? const Center(child: CircularProgressIndicator())
-                        : Center(
-                            child: DisplayText(textProvider),
-                          ),
+                        : Center(child: DisplayText(textProvider)),
       ),
     );
   }
