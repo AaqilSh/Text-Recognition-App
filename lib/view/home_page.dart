@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_recognition/providers/base_model.dart';
 import 'package:text_recognition/providers/image_provider.dart';
 import 'package:text_recognition/providers/text_provider.dart';
+import 'package:text_recognition/view/custom_widgets.dart/display_image.dart';
 import 'package:text_recognition/view/custom_widgets.dart/upload_image_button.dart';
 import 'package:text_recognition/view/result_page.dart';
 
@@ -19,7 +18,8 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 25.0,
@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
                         ? Center(
                             child: Column(
                               children: [
-                                _displayImage(imageProvider.image.imagePath),
+                                DisplayImage(imageProvider.image.imagePath),
                                 CustomButton(
                                     text: 'Get another image',
                                     onTap: imageProvider.getImage)
@@ -57,13 +57,6 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Image _displayImage(String path) {
-    return Image.file(
-      File(path),
-      height: 100,
     );
   }
 }

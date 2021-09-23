@@ -26,7 +26,6 @@ class TextViewModel extends BaseModel {
       setState(CurrentState.loaded);
     } catch (e) {
       setState(CurrentState.error);
-      // setState(CurrentState.idle);
     }
   }
 

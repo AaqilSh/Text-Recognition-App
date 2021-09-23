@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:text_recognition/providers/base_model.dart';
 import 'package:text_recognition/providers/text_provider.dart';
 
+import 'custom_widgets.dart/diplay_text.dart';
+
 class ResultPage extends StatelessWidget {
   const ResultPage({Key? key}) : super(key: key);
 
@@ -26,22 +28,9 @@ class ResultPage extends StatelessWidget {
                     : (textProvider.state == CurrentState.loading)
                         ? const Center(child: CircularProgressIndicator())
                         : Center(
-                            child: _displayText(textProvider),
+                            child: DisplayText(textProvider),
                           ),
       ),
     );
   }
-}
-
-ListView _displayText(TextViewModel text) {
-  return ListView.separated(
-    separatorBuilder: (_, __) => const SizedBox(
-      height: 7.0,
-    ),
-    itemCount: text.processedTexts!.length,
-    itemBuilder: (context, index) {
-      return Center(
-          child: Text('${index + 1}: ${text.processedTexts![index].block}'));
-    },
-  );
 }
