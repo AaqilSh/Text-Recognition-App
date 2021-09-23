@@ -11,7 +11,8 @@ class MlService {
     List<RecognizedText> recognizedList = [];
 
     for (TextBlock block in recognisedText.blocks) {
-      recognizedList.add(RecognizedText(lines: block.lines, block: block.text));
+      recognizedList.add(
+          RecognizedText(lines: block.lines, block: block.text.toLowerCase()));
     }
 
     return recognizedList;

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:text_recognition/model/data_layer.dart';
-import 'package:text_recognition/repositories/image_exceptions.dart';
+import 'package:text_recognition/repositories/exceptions.dart';
 
 class MediaService {
   final ImagePicker _imagePicker = ImagePicker();
@@ -14,7 +14,7 @@ class MediaService {
       final image = ImageModel(imagePath: _image!.path);
       return image;
     } catch (e) {
-      throw ImageNotSelectedException('No image found');
+      throw ImageNotSelectedException('Image not found');
     }
     // }
   }
