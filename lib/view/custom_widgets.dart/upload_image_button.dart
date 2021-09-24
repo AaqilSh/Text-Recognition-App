@@ -16,7 +16,9 @@ class CustomButton extends StatelessWidget {
       alignment: Alignment.center,
       child: ElevatedButton(
         onPressed: onTap,
-        child: Text(text!),
+        child: Text(
+          text!,
+        ),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:text_recognition/model/data_layer.dart';
 import 'package:text_recognition/providers/base_model.dart';
 import 'package:text_recognition/providers/image_provider.dart';
-import 'package:text_recognition/repositories/image_labelling.dart';
+import 'package:text_recognition/repositories/text_recongnize.dart';
 
 class TextViewModel extends BaseModel {
   late ImageViewModel _imageProvider;

@@ -1,7 +1,7 @@
 import 'package:text_recognition/model/data_layer.dart';
 import 'package:text_recognition/providers/base_model.dart';
-import 'package:text_recognition/repositories/image_exceptions.dart';
-import 'package:text_recognition/repositories/upload_image.dart';
+import 'package:text_recognition/repositories/exceptions.dart';
+import 'package:text_recognition/repositories/media_service.dart';
 
 class ImageViewModel extends BaseModel {
   ImageModel? _image;
