@@ -6,7 +6,7 @@ import 'package:text_recognition/repositories/exceptions.dart';
 
 class MediaService {
   final ImagePicker _imagePicker = ImagePicker();
-  File? image;
+  ImageModel? image;
 
   Future<ImageModel?> pickImageFromGallery() async {
     try {
@@ -14,7 +14,7 @@ class MediaService {
       final image = ImageModel(imagePath: _image!.path);
       return image;
     } catch (e) {
-      throw ImageNotSelectedException('Image not found');
+      ImageNotSelectedException('Image not found');
     }
     // }
   }
